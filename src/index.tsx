@@ -1,6 +1,6 @@
 import "./styles.css";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDidUpdateEffect } from "./use-did-update-effect";
 
 import cc from "./classnames";
@@ -45,6 +45,7 @@ export const TagsInput = ({
   classNames,
 }: TagsInputProps) => {
   const [tags, setTags] = useState<any>(value || []);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useDidUpdateEffect(() => {
     onChange && onChange(tags);
@@ -89,8 +90,12 @@ export const TagsInput = ({
     onRemoved && onRemoved(text);
   };
 
+  const handleContainerClick = () => {
+    inputRef.current?.focus();
+  };
+
   return (
-    <div aria-labelledby={name} className="rti--container">
+    <div aria-labelledby={name} className="rti--container" onClick={handleContainerClick}>
       {tags.map(tag => (
         <Tag
           key={tag}
@@ -102,6 +107,7 @@ export const TagsInput = ({
       ))}
 
       <input
+        ref={inputRef}
         className={cc("rti--input", classNames?.input)}
         type="text"
         name={name}
