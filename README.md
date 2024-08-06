@@ -18,8 +18,8 @@ also see [multi select component](https://github.com/harshzalavadiya/react-multi
 ## 🔧 Installation
 
 ```bash
-npm i react-tag-input-component    # npm
-yarn add react-tag-input-component # yarn
+npm i react-tag-input-component-2    # npm
+yarn add react-tag-input-component-2 # yarn
 ```
 
 ## 📦 Example
