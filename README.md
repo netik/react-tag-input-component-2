@@ -1,12 +1,12 @@
-# react-tag-input-component
+# react-tag-input-component-2
 
-lightweight component for tag(s) input
+lightweight component for tag(s) input, forked from https://github.com/hc-oss/react-tag-input-component
 
-[![GitHub Actions Status](https://github.com/harshzalavadiya/react-tag-input-component/workflows/CI/badge.svg)](https://github.com/harshzalavadiya/react-tag-input-component/actions)
-[![NPM](https://img.shields.io/npm/v/react-tag-input-component.svg)](https://npm.im/react-tag-input-component)
-[![gzip](https://badgen.net/bundlephobia/minzip/react-tag-input-component@latest)](https://bundlephobia.com/result?p=react-tag-input-component@latest)
+[![GitHub Actions Status](https://github.com/bartread/react-tag-input-component-2/workflows/CI/badge.svg)](https://github.com/bartread/react-tag-input-component-2/actions)
+[![NPM](https://img.shields.io/npm/v/react-tag-input-component-2.svg)](https://npm.im/react-tag-input-component-2)
+[![gzip](https://badgen.net/bundlephobia/minzip/react-tag-input-component-2@latest)](https://bundlephobia.com/result?p=react-tag-input-component-2@latest)
 
-also see [multi select component](https://github.com/harshzalavadiya/react-multi-select-component)
+also see Harsh's [multi select component](https://github.com/harshzalavadiya/react-multi-select-component)
 
 ## ✨ Features
 
@@ -30,7 +30,7 @@ yarn add react-tag-input-component-2 # yarn
 
 ```tsx
 import React, { useState } from "react";
-import { TagsInput } from "react-tag-input-component";
+import { TagsInput } from "react-tag-input-component-2";
 
 const Example = () => {
   const [selected, setSelected] = useState(["papaya"]);
