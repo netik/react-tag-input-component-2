@@ -1,14 +1,16 @@
 {
   "name": "react-tag-input-component-2",
   "description": "lightweight component for tag(s) input",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "license": "MIT",
   "author": "Harsh Zalavadiya",
-  "contributors": [{
-    "name": "Bart Read",
-    "email": "bart@bartread.com",
-    "url": "https://bartread.com"
-  }],
+  "contributors": [
+    {
+      "name": "Bart Read",
+      "email": "bart@bartread.com",
+      "url": "https://bartread.com"
+    }
+  ],
   "repository": "https://github.com/bartread/react-tag-input-component-2",
   "main": "./dist/index.js",
   "module": "./dist/esm/index.js",
