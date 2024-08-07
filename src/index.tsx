@@ -57,6 +57,17 @@ export const TagsInput = ({
     }
   }, [value]);
 
+  const maybeSetTags = (text: string, e) => {
+    if (beforeAddValidate && !beforeAddValidate(text, tags)) return;
+
+    if (tags.includes(text)) {
+      onExisting && onExisting(text);
+      return;
+    }
+    setTags([...tags, text]);
+    e.target.value = "";
+  };
+
   const handleOnKeyUp = e => {
     e.stopPropagation();
 
@@ -74,15 +85,18 @@ export const TagsInput = ({
 
     if (text && (separators || defaultSeparators).includes(e.key)) {
       e.preventDefault();
-      if (beforeAddValidate && !beforeAddValidate(text, tags)) return;
-
-      if (tags.includes(text)) {
-        onExisting && onExisting(text);
-        return;
-      }
-      setTags([...tags, text]);
-      e.target.value = "";
+      maybeSetTags(text, e);
     }
+  };
+
+  const handleOnBlur = e => {
+    const text = e.target.value.trim();
+
+    if (text) {
+      maybeSetTags(text, e);
+    }
+
+    onBlur && onBlur(e);
   };
 
   const onTagRemove = text => {
@@ -113,7 +127,7 @@ export const TagsInput = ({
         name={name}
         placeholder={placeHolder}
         onKeyDown={handleOnKeyUp}
-        onBlur={onBlur}
+        onBlur={handleOnBlur}
         disabled={disabled}
         onKeyUp={onKeyUp}
       />
