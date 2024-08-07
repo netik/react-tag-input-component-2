@@ -43,7 +43,7 @@ export const TagsInput = ({
   onExisting,
   onRemoved,
   disabled,
-  isEditOnRemove,
+  isEditOnRemove = true,
   beforeAddValidate,
   onKeyUp,
   classNames,
@@ -131,7 +131,10 @@ export const TagsInput = ({
       e.key === "Backspace"
     ) {
       e.target.value = isEditOnRemove ? `${tags.at(-1)} ` : "";
-      setTags([...tags.slice(0, -1)]);
+
+      const newTags = [...tags.slice(0, -1)];
+      setTags(newTags);
+      updateHistory(newTags);
     }
 
     if (text && (separators || defaultSeparators).includes(e.key)) {
