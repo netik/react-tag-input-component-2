@@ -1,10 +1,13 @@
 import "./styles.css";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDidUpdateEffect } from "./use-did-update-effect";
 
 import cc from "./classnames";
 import Tag from "./tag";
+
+const userAgent = navigator.userAgent.toLowerCase();
+const isMac = userAgent.indexOf('mac') !== -1;
 
 export interface TagsInputProps {
   name?: string;
@@ -24,6 +27,7 @@ export interface TagsInputProps {
     input?: string;
     tag?: string;
   };
+  disableUndoRedo?: boolean;
 }
 
 const defaultSeparators = ["Enter"];
@@ -43,8 +47,11 @@ export const TagsInput = ({
   beforeAddValidate,
   onKeyUp,
   classNames,
+  disableUndoRedo = false,
 }: TagsInputProps) => {
   const [tags, setTags] = useState<any>(value || []);
+  const [history, setHistory] = useState<any[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useDidUpdateEffect(() => {
@@ -57,6 +64,18 @@ export const TagsInput = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    setHistory([tags]);
+    setHistoryIndex(0);
+  }, []);
+
+  const updateHistory = (newTags) => {
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(newTags);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+  };
+
   const maybeSetTags = (text: string, e) => {
     if (beforeAddValidate && !beforeAddValidate(text, tags)) return;
 
@@ -64,12 +83,44 @@ export const TagsInput = ({
       onExisting && onExisting(text);
       return;
     }
-    setTags([...tags, text]);
+
+    const newTags = [...tags, text];
+    setTags(newTags);
+    updateHistory(newTags);
+
     e.target.value = "";
+  };
+
+  const maybeHandleUndoRedo = (e) => {
+    if (disableUndoRedo) {
+      return false;
+    }
+
+    if (((isMac && e.metaKey) || (!isMac && e.ctrlKey)) && e.key === 'z') {
+      e.preventDefault();
+
+      if (e.shiftKey && historyIndex < history.length - 1) {
+        const nextTags = history[historyIndex + 1];
+        setTags(nextTags);
+        setHistoryIndex(historyIndex + 1);
+      } else if (!e.shiftKey && historyIndex > 0) {
+        const prevTags = history[historyIndex - 1];
+        setTags(prevTags);
+        setHistoryIndex(historyIndex - 1);
+      }
+
+      return true;
+    }
+
+    return false;
   };
 
   const handleOnKeyUp = e => {
     e.stopPropagation();
+
+    if (maybeHandleUndoRedo(e)) {
+      return;
+    }
 
     const text = e.target.value;
 
