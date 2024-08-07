@@ -131,7 +131,7 @@ export const TagsInput = ({
       e.key === "Backspace"
     ) {
       e.target.value = isEditOnRemove ? `${tags.at(-1)} ` : "";
-      
+
       const newTags = [...tags.slice(0, -1)];
       setTags(newTags);
       updateHistory(newTags);
